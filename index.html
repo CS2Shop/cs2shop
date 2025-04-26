@@ -135,11 +135,19 @@
 
     /* Footer */
     footer {
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       padding: 1rem;
       font-size: 0.9rem;
       color: #555;
       background: #000;
+    }
+
+    footer img {
+      height: 64px;
+      width: 64px;
     }
   </style>
 </head>
@@ -177,7 +185,8 @@
 
 <!-- Footer -->
 <footer>
-  © 2025 CS2 Shop | All rights reserved
+  <img src="https://raw.githubusercontent.com/Tyvrixx/CS2Shop/main/images/logo.png" alt="CS2 Shop Logo">
+  <span>© 2025 CS2 Shop | All rights reserved</span>
 </footer>
 
 </body>
