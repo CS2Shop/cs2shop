@@ -29,12 +29,13 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Added transform */
     }
 
     .product:hover {
       border-color: #5865F2; /* Border color change on hover */
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+      transform: scale(1.05); /* Scale up slightly */
     }
 
     .product img {
