@@ -17,12 +17,12 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      position: relative; /* Added for line positioning */
     }
 
     .product {
+      position: relative;
       flex: 1;
-      border: 2px solid transparent;
+      border: 2px solid transparent; /* Transparent border */
       box-sizing: border-box;
       padding: 20px;
       background-color: white;
@@ -30,13 +30,13 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Added transition for scaling */
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Added transform transition */
     }
 
     .product:hover {
-      border-color: #5865F2;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transform: scale(1.05); /* Grow the product on hover */
+      border-color: #5865F2; /* Border color change on hover */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+      transform: scale(1.05); /* Make the product grow slightly */
     }
 
     .product img {
@@ -45,11 +45,6 @@
       height: auto;
       border-radius: 6px;
       margin-bottom: 20px;
-      transition: transform 0.3s; /* Smooth transition for image scale */
-    }
-
-    .product img:hover {
-      transform: scale(1.1); /* Enlarge image when hovered */
     }
 
     .product h3 {
@@ -72,12 +67,22 @@
       cursor: pointer;
       font-size: 18px;
       margin-top: 20px;
-      transition: transform 0.3s; /* Smooth transition for button scale */
+      transition: transform 0.3s; /* Smooth button hover transition */
     }
 
     .product a button:hover {
       background-color: #4752C4;
-      transform: scale(1.1); /* Enlarge button when hovered */
+      transform: scale(1.1); /* Make button grow slightly */
+    }
+
+    /* Static line at the bottom of the product */
+    .line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background-color: #5865F2; /* Line color */
+      width: 100%; /* Always visible */
     }
 
     /* Loading Screen Styles */
@@ -87,14 +92,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.8); /* Slight transparent overlay */
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       backdrop-filter: blur(6px);
       opacity: 1;
-      transition: opacity 1s ease;
+      transition: opacity 1s ease; /* Smooth fading transition */
     }
 
     .loading-screen.fade-out {
@@ -105,32 +110,21 @@
     .loading-content {
       display: flex;
       align-items: center;
-      gap: -10px;
+      gap: -10px; /* Reduced gap between PayPal logo and text */
       padding: 20px 40px;
       border-radius: 12px;
     }
 
     .loading-content img {
       height: 80px;
-      margin-right: -6px;
+      margin-right: -6px; /* Adjust this to move the logos closer to the text */
     }
 
     .loading-content span {
       font-size: 28px;
       font-weight: bold;
-      color: #003087;
-      text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Line Styles */
-    .line {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background-color: #5865F2;
-      z-index: -1;
+      color: #003087; /* PayPal blue */
+      text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); /* Optional: add glow for better visibility */
     }
   </style>
 </head>
@@ -153,6 +147,7 @@
       <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
         <button>Buy</button>
       </a>
+      <div class="line"></div> <!-- Static line at the bottom of the product -->
     </div>
     <div class="product">
       <img src="https://cs2boosts.github.io/cs2shop/images/product2.png" alt="Product 2">
@@ -161,11 +156,9 @@
       <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
         <button>Buy</button>
       </a>
+      <div class="line"></div> <!-- Static line at the bottom of the product -->
     </div>
   </div>
-
-  <!-- Always visible line -->
-  <div class="line"></div>
 
   <script>
     // Hide loading screen with a fade after 2 seconds
