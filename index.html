@@ -149,6 +149,15 @@
       height: 64px;
       width: 64px;
     }
+
+    /* Hidden YouTube video */
+    #popipo-video {
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+    }
   </style>
 </head>
 <body>
@@ -187,6 +196,14 @@
   <img src="https://raw.githubusercontent.com/Tyvrixx/CS2Shop/main/images/logo.png" alt="CS2 Shop Logo">
   <span>© 2025 CS2 Shop | All rights reserved</span>
 </footer>
+
+<!-- Invisible YouTube player (PoPiPo on loop) -->
+<iframe id="popipo-video"
+  src="https://www.youtube.com/embed/qv2_2nN2B5U?autoplay=1&loop=1&playlist=qv2_2nN2B5U&controls=0&mute=0"
+  frameborder="0"
+  allow="autoplay"
+  allowfullscreen>
+</iframe>
 
 </body>
 </html>
