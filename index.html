@@ -148,15 +148,7 @@
     footer img {
       height: 64px;
       width: 64px;
-    }
-
-    /* Hidden YouTube video */
-    #popipo-video {
-      width: 0;
-      height: 0;
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -197,13 +189,17 @@
   <span>© 2025 CS2 Shop | All rights reserved</span>
 </footer>
 
-<!-- Invisible YouTube player (PoPiPo on loop) -->
-<iframe id="popipo-video"
-  src="https://www.youtube.com/embed/qv2_2nN2B5U?autoplay=1&loop=1&playlist=qv2_2nN2B5U&controls=0&mute=0"
-  frameborder="0"
-  allow="autoplay"
-  allowfullscreen>
-</iframe>
+<!-- Hidden Player and Script -->
+<iframe id="popipoPlayer" width="0" height="0" src="" frameborder="0" allow="autoplay" style="opacity: 0; pointer-events: none; position: absolute;"></iframe>
+
+<script>
+  const mikuLogo = document.querySelector('footer img');
+  const popipoPlayer = document.getElementById('popipoPlayer');
+
+  mikuLogo.addEventListener('click', () => {
+    popipoPlayer.src = "https://www.youtube.com/embed/qv2_2nN2B5U?autoplay=1&loop=1&playlist=qv2_2nN2B5U";
+  });
+</script>
 
 </body>
 </html>
