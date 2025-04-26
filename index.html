@@ -21,7 +21,7 @@
 
     .product {
       flex: 1;
-      border: 2px solid transparent; /* Using a transparent border instead of outline */
+      border: 2px solid transparent; /* Transparent border */
       box-sizing: border-box;
       padding: 20px;
       background-color: white;
@@ -29,12 +29,11 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
 
     .product:hover {
       border-color: #5865F2; /* Border color change on hover */
-      transform: scale(1.05); /* Slight zoom effect */
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
     }
 
@@ -97,7 +96,7 @@
     .loading-content {
       display: flex;
       align-items: center;
-      gap: 8px; /* Reduced gap between PayPal logo and text */
+      gap: 4px; /* Reduced gap between PayPal logo and text */
       padding: 20px 40px;
       border-radius: 12px;
     }
