@@ -4,14 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CS2 Shop</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- FontAwesome for icons -->
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
-      overflow: hidden; /* Prevents scrollbars from appearing */
-      transition: background-color 0.3s, color 0.3s; /* Smooth transition for mode change */
+      overflow: hidden;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     /* Night mode (default) */
@@ -139,9 +140,21 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 18px;
+      transition: transform 0.3s, background-color 0.3s;
+      animation: bounce 0.5s ease infinite; /* Adding a bounce effect */
     }
+
     .toggle-btn:hover {
       background-color: #4752C4;
+    }
+
+    /* Bounce Animation */
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     /* Line */
@@ -161,8 +174,10 @@
 </head>
 
 <body class="night-mode">
-  <!-- Toggle Button for Night/Day Mode -->
-  <button class="toggle-btn" onclick="toggleMode()">Toggle Night/Day Mode</button>
+  <!-- Toggle Button for Night/Day Mode with Icon -->
+  <button class="toggle-btn" onclick="toggleMode()">
+    <i class="fas fa-moon" id="modeIcon"></i> <!-- Default icon for night mode -->
+  </button>
 
   <!-- Loading screen -->
   <div class="loading-screen" id="loadingScreen">
@@ -198,12 +213,18 @@
     // Toggle between night and day mode
     function toggleMode() {
       const body = document.body;
+      const modeIcon = document.getElementById('modeIcon');
+
       if (body.classList.contains("night-mode")) {
         body.classList.remove("night-mode");
         body.classList.add("day-mode");
+        modeIcon.classList.remove('fa-moon');
+        modeIcon.classList.add('fa-sun'); // Change to sun icon for day mode
       } else {
         body.classList.remove("day-mode");
         body.classList.add("night-mode");
+        modeIcon.classList.remove('fa-sun');
+        modeIcon.classList.add('fa-moon'); // Change to moon icon for night mode
       }
     }
 
@@ -215,17 +236,17 @@
       const button = productDiv.querySelector('button');
 
       productDiv.addEventListener('mouseenter', () => {
-        productDiv.style.transform = 'scale(1.05)'; // Enlarge the product when hovered
-        productDiv.style.zIndex = '10'; // Bring the hovered product to the front
+        productDiv.style.transform = 'scale(1.05)';
+        productDiv.style.zIndex = '10';
       });
 
       productDiv.addEventListener('mouseleave', () => {
-        productDiv.style.transform = 'scale(1)'; // Reset to original size when not hovered
-        productDiv.style.zIndex = '1'; // Reset to original stacking order
+        productDiv.style.transform = 'scale(1)';
+        productDiv.style.zIndex = '1';
       });
 
       img.addEventListener('mouseenter', () => {
-        productDiv.style.transform = 'scale(1.05)'; // Enlarge the product image when hovered
+        productDiv.style.transform = 'scale(1.05)';
       });
 
       img.addEventListener('mouseleave', () => {
@@ -233,7 +254,7 @@
       });
 
       button.addEventListener('mouseenter', () => {
-        productDiv.style.transform = 'scale(1.05)'; // Enlarge the button when hovered
+        productDiv.style.transform = 'scale(1.05)';
       });
 
       button.addEventListener('mouseleave', () => {
