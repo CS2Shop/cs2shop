@@ -10,6 +10,7 @@
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
+      overflow: hidden; /* Prevents scrollbars from appearing */
       transition: background-color 0.3s, color 0.3s; /* Smooth transition for mode change */
     }
 
@@ -29,6 +30,8 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
 
     .product {
@@ -42,13 +45,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-    }
-
-    .product:hover {
-      border-color: #5865F2;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transform: scale(1.05);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      overflow: hidden;
     }
 
     .product img {
@@ -57,6 +55,7 @@
       height: auto;
       border-radius: 6px;
       margin-bottom: 20px;
+      transition: transform 0.3s;
     }
 
     .product h3 {
@@ -84,17 +83,6 @@
 
     .product a button:hover {
       background-color: #4752C4;
-      transform: scale(1.1);
-    }
-
-    /* Static line at the bottom of the product */
-    .line {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 3px;
-      background-color: #5865F2;
-      width: 100%;
     }
 
     /* Loading Screen Styles */
@@ -139,29 +127,43 @@
       text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     }
 
-    /* Night/Day Toggle Button */
-    .mode-toggle {
+    /* Night/Day toggle button */
+    .toggle-btn {
       position: fixed;
       top: 20px;
       right: 20px;
       background-color: #5865F2;
       color: white;
-      border: none;
       padding: 10px 20px;
+      border: none;
       border-radius: 6px;
-      font-size: 18px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      font-size: 18px;
+    }
+    .toggle-btn:hover {
+      background-color: #4752C4;
     }
 
-    .mode-toggle:hover {
-      background-color: #4752C4;
+    /* Line */
+    .line {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100%;
+      height: 5px;
+      background-color: #5865F2;
+      transform: translateX(-50%);
+      transition: opacity 0.3s;
+      z-index: -1;
     }
 
   </style>
 </head>
 
 <body class="night-mode">
+  <!-- Toggle Button for Night/Day Mode -->
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Night/Day Mode</button>
+
   <!-- Loading screen -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-content">
@@ -171,31 +173,74 @@
     </div>
   </div>
 
-  <!-- Night/Day Mode Toggle Button -->
-  <button class="mode-toggle" id="modeToggle">Switch to Day Mode</button>
-
   <div class="shop-container">
-    <div class="product">
+    <div class="product" id="product1">
       <img src="https://cs2boosts.github.io/cs2shop/images/product1.png" alt="Product 1">
       <h3>Boosts</h3>
       <p>€5.00</p>
       <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
         <button>Buy</button>
       </a>
-      <div class="line"></div> <!-- Static line at the bottom of the product -->
+      <div class="line" id="line1"></div>
     </div>
-    <div class="product">
+    <div class="product" id="product2">
       <img src="https://cs2boosts.github.io/cs2shop/images/product2.png" alt="Product 2">
       <h3>Midnight Prime Config</h3>
       <p>€10.00</p>
       <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
         <button>Buy</button>
       </a>
-      <div class="line"></div> <!-- Static line at the bottom of the product -->
+      <div class="line" id="line2"></div>
     </div>
   </div>
 
   <script>
+    // Toggle between night and day mode
+    function toggleMode() {
+      const body = document.body;
+      if (body.classList.contains("night-mode")) {
+        body.classList.remove("night-mode");
+        body.classList.add("day-mode");
+      } else {
+        body.classList.remove("day-mode");
+        body.classList.add("night-mode");
+      }
+    }
+
+    // Hover behavior to enlarge products and buttons
+    const productDivs = document.querySelectorAll('.product');
+    productDivs.forEach((productDiv) => {
+      const line = productDiv.querySelector('.line');
+      const img = productDiv.querySelector('img');
+      const button = productDiv.querySelector('button');
+
+      productDiv.addEventListener('mouseenter', () => {
+        productDiv.style.transform = 'scale(1.05)'; // Enlarge the product when hovered
+        productDiv.style.zIndex = '10'; // Bring the hovered product to the front
+      });
+
+      productDiv.addEventListener('mouseleave', () => {
+        productDiv.style.transform = 'scale(1)'; // Reset to original size when not hovered
+        productDiv.style.zIndex = '1'; // Reset to original stacking order
+      });
+
+      img.addEventListener('mouseenter', () => {
+        productDiv.style.transform = 'scale(1.05)'; // Enlarge the product image when hovered
+      });
+
+      img.addEventListener('mouseleave', () => {
+        productDiv.style.transform = 'scale(1)';
+      });
+
+      button.addEventListener('mouseenter', () => {
+        productDiv.style.transform = 'scale(1.05)'; // Enlarge the button when hovered
+      });
+
+      button.addEventListener('mouseleave', () => {
+        productDiv.style.transform = 'scale(1)';
+      });
+    });
+
     // Hide loading screen with a fade after 2 seconds
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -207,22 +252,6 @@
           }, 1000);
         }
       }, 2000);
-    });
-
-    // Toggle night and day mode
-    const modeToggleButton = document.getElementById('modeToggle');
-    const body = document.body;
-
-    modeToggleButton.addEventListener('click', () => {
-      if (body.classList.contains('night-mode')) {
-        body.classList.remove('night-mode');
-        body.classList.add('day-mode');
-        modeToggleButton.textContent = 'Switch to Night Mode';
-      } else {
-        body.classList.remove('day-mode');
-        body.classList.add('night-mode');
-        modeToggleButton.textContent = 'Switch to Day Mode';
-      }
     });
   </script>
 </body>
