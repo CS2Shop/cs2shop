@@ -4,41 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CS2 Shop</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- FontAwesome for icons -->
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
-      overflow: hidden;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    /* Night mode (default) */
-    body.night-mode {
-      background-color: #1e1e1e;
-      color: white;
-    }
-
-    /* Day mode */
-    body.day-mode {
-      background-color: #f2f2f2;
-      color: black;
+      background-color: #121212; /* Default to night mode */
+      transition: background-color 0.3s ease;
     }
 
     .shop-container {
       display: flex;
       flex-direction: column;
       height: 100vh;
-      overflow: hidden;
-      position: relative;
     }
 
     .product {
-      position: relative;
       flex: 1;
-      border: 2px solid transparent;
+      border: 2px solid transparent; /* Transparent border */
       box-sizing: border-box;
       padding: 20px;
       background-color: white;
@@ -46,8 +30,13 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s ease; /* Added transform animation */
+    }
+
+    .product:hover {
+      border-color: #5865F2;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05); /* Slight zoom effect on hover */
     }
 
     .product img {
@@ -56,7 +45,6 @@
       height: auto;
       border-radius: 6px;
       margin-bottom: 20px;
-      transition: transform 0.3s;
     }
 
     .product h3 {
@@ -79,7 +67,6 @@
       cursor: pointer;
       font-size: 18px;
       margin-top: 20px;
-      transition: transform 0.3s;
     }
 
     .product a button:hover {
@@ -128,58 +115,56 @@
       text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     }
 
-    /* Night/Day toggle button */
-    .toggle-btn {
+    /* Night/Day Mode Button */
+    .night-day-button {
       position: fixed;
       top: 20px;
       right: 20px;
       background-color: #5865F2;
       color: white;
       padding: 10px 20px;
-      border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 18px;
-      transition: transform 0.3s, background-color 0.3s;
-      animation: bounce 0.5s ease infinite; /* Adding a bounce effect */
+      font-size: 16px;
+      transition: background-color 0.3s;
+      z-index: 10000; /* Ensure it's above all other content */
     }
 
-    .toggle-btn:hover {
+    .night-day-button:hover {
       background-color: #4752C4;
     }
 
-    /* Bounce Animation */
-    @keyframes bounce {
-      0% { transform: scale(1); }
-      30% { transform: scale(1.1); }
-      50% { transform: scale(1); }
-      70% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    /* Animation for night/day mode switch */
+    .night-mode {
+      background-color: #121212;
+      color: white;
+      transition: all 0.3s ease;
     }
 
-    /* Line */
+    .day-mode {
+      background-color: white;
+      color: black;
+      transition: all 0.3s ease;
+    }
+
+    /* Horizontal line in the middle */
     .line {
       position: absolute;
-      top: 0;
-      left: 50%;
+      top: 50%; /* Line in the middle of the screen */
+      left: 0;
       width: 100%;
-      height: 5px;
+      height: 3px;
       background-color: #5865F2;
-      transform: translateX(-50%);
-      transition: opacity 0.3s;
-      z-index: -1;
+      z-index: 10; /* Ensure it's above other content */
     }
-
   </style>
 </head>
 
-<body class="night-mode">
-  <!-- Toggle Button for Night/Day Mode with Icon -->
-  <button class="toggle-btn" onclick="toggleMode()">
-    <i class="fas fa-moon" id="modeIcon"></i> <!-- Default icon for night mode -->
-  </button>
+<body class="night-mode"> <!-- Default to night mode -->
+  <!-- Night/Day Mode Button -->
+  <div class="night-day-button" onclick="toggleMode()">Switch Mode</div>
 
-  <!-- Loading screen -->
+  <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-content">
       <img src="https://raw.githubusercontent.com/cs2boosts/cs2shop/main/images/paypal.png" alt="PayPal Logo">
@@ -189,78 +174,45 @@
   </div>
 
   <div class="shop-container">
-    <div class="product" id="product1">
+    <!-- Product 1 -->
+    <div class="product">
       <img src="https://cs2boosts.github.io/cs2shop/images/product1.png" alt="Product 1">
       <h3>Boosts</h3>
       <p>€5.00</p>
       <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
         <button>Buy</button>
       </a>
-      <div class="line" id="line1"></div>
     </div>
-    <div class="product" id="product2">
+
+    <!-- Product 2 -->
+    <div class="product">
       <img src="https://cs2boosts.github.io/cs2shop/images/product2.png" alt="Product 2">
       <h3>Midnight Prime Config</h3>
       <p>€10.00</p>
       <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
         <button>Buy</button>
       </a>
-      <div class="line" id="line2"></div>
     </div>
   </div>
 
+  <!-- Horizontal line in the middle -->
+  <div class="line"></div>
+
   <script>
-    // Toggle between night and day mode
+    // Toggle Night/Day Mode
     function toggleMode() {
       const body = document.body;
-      const modeIcon = document.getElementById('modeIcon');
-
-      if (body.classList.contains("night-mode")) {
-        body.classList.remove("night-mode");
-        body.classList.add("day-mode");
-        modeIcon.classList.remove('fa-moon');
-        modeIcon.classList.add('fa-sun'); // Change to sun icon for day mode
+      const button = document.querySelector('.night-day-button');
+      if (body.classList.contains('night-mode')) {
+        body.classList.remove('night-mode');
+        body.classList.add('day-mode');
+        button.textContent = 'Switch to Night Mode';
       } else {
-        body.classList.remove("day-mode");
-        body.classList.add("night-mode");
-        modeIcon.classList.remove('fa-sun');
-        modeIcon.classList.add('fa-moon'); // Change to moon icon for night mode
+        body.classList.remove('day-mode');
+        body.classList.add('night-mode');
+        button.textContent = 'Switch to Day Mode';
       }
     }
-
-    // Hover behavior to enlarge products and buttons
-    const productDivs = document.querySelectorAll('.product');
-    productDivs.forEach((productDiv) => {
-      const line = productDiv.querySelector('.line');
-      const img = productDiv.querySelector('img');
-      const button = productDiv.querySelector('button');
-
-      productDiv.addEventListener('mouseenter', () => {
-        productDiv.style.transform = 'scale(1.05)';
-        productDiv.style.zIndex = '10';
-      });
-
-      productDiv.addEventListener('mouseleave', () => {
-        productDiv.style.transform = 'scale(1)';
-        productDiv.style.zIndex = '1';
-      });
-
-      img.addEventListener('mouseenter', () => {
-        productDiv.style.transform = 'scale(1.05)';
-      });
-
-      img.addEventListener('mouseleave', () => {
-        productDiv.style.transform = 'scale(1)';
-      });
-
-      button.addEventListener('mouseenter', () => {
-        productDiv.style.transform = 'scale(1.05)';
-      });
-
-      button.addEventListener('mouseleave', () => {
-        productDiv.style.transform = 'scale(1)';
-      });
-    });
 
     // Hide loading screen with a fade after 2 seconds
     window.addEventListener('load', () => {
@@ -270,9 +222,9 @@
           loadingScreen.classList.add('fade-out');
           setTimeout(() => {
             loadingScreen.remove();
-          }, 1000);
+          }, 1000); // Wait for fade animation to complete before removing
         }
-      }, 2000);
+      }, 2000); // Show loading screen for 2 seconds
     });
   </script>
 </body>
