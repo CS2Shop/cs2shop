@@ -30,11 +30,13 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: outline-color 0.3s;
+      transition: outline-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
 
     .product:hover {
       outline-color: #5865F2;
+      transform: scale(1.05); /* Slight zoom effect */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
     }
 
     .product img {
@@ -96,14 +98,13 @@
     .loading-content {
       display: flex;
       align-items: center;
-      gap: 16px;
-      /* No background here! Fully transparent */
+      gap: 24px; /* Increased gap between the logos and text */
       padding: 20px 40px;
       border-radius: 12px;
     }
 
     .loading-content img {
-      height: 50px;
+      height: 80px; /* Increased PayPal logo size */
     }
 
     .loading-content span {
