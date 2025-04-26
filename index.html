@@ -150,6 +150,18 @@
       width: 64px;
       cursor: pointer;
     }
+
+    /* Hidden music container */
+    #music-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
   </style>
 </head>
 <body>
@@ -185,19 +197,31 @@
 
 <!-- Footer -->
 <footer>
-  <img src="https://raw.githubusercontent.com/Tyvrixx/CS2Shop/main/images/logo.png" alt="CS2 Shop Logo">
+  <img id="miku-logo" src="https://raw.githubusercontent.com/Tyvrixx/CS2Shop/main/images/logo.png" alt="CS2 Shop Logo">
   <span>© 2025 CS2 Shop | All rights reserved</span>
 </footer>
 
-<!-- Hidden Player and Script -->
-<iframe id="popipoPlayer" width="0" height="0" src="" frameborder="0" allow="autoplay" style="opacity: 0; pointer-events: none; position: absolute;"></iframe>
+<!-- Hidden music container -->
+<div id="music-container"></div>
 
+<!-- Script to play music on click -->
 <script>
-  const mikuLogo = document.querySelector('footer img');
-  const popipoPlayer = document.getElementById('popipoPlayer');
+  const mikuLogo = document.getElementById('miku-logo');
+  const musicContainer = document.getElementById('music-container');
+  let musicPlaying = false;
 
   mikuLogo.addEventListener('click', () => {
-    popipoPlayer.src = "https://www.youtube.com/embed/qv2_2nN2B5U?autoplay=1&loop=1&playlist=qv2_2nN2B5U";
+    if (!musicPlaying) {
+      const iframe = document.createElement('iframe');
+      iframe.src = "https://www.youtube.com/embed/qv2_2nN2B5U?autoplay=1&loop=1&playlist=qv2_2nN2B5U";
+      iframe.style.width = "0";
+      iframe.style.height = "0";
+      iframe.style.opacity = "0";
+      iframe.frameBorder = "0";
+      iframe.allow = "autoplay";
+      musicContainer.appendChild(iframe);
+      musicPlaying = true;
+    }
   });
 </script>
 
