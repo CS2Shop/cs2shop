@@ -1,231 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CS2 Shop</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cs2 Shop</title>
   <style>
-    html, body {
+    /* Reset and basic setup */
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      background-color: #121212; /* Default to night mode */
-      transition: background-color 0.3s ease;
-    }
-
-    .shop-container {
+      font-family: 'Poppins', Arial, sans-serif;
+      background-color: #000; /* pure black background */
+      color: #f5f5f5;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      min-height: 100vh;
     }
 
-    .product {
-      flex: 1;
-      border: 2px solid transparent;
-      box-sizing: border-box;
-      padding: 20px;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s ease;
-    }
-
-    .product:hover {
-      border-color: #5865F2;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transform: scale(1.05); /* Slight zoom effect on hover */
-    }
-
-    .product img {
-      width: 60%;
-      max-width: 400px;
-      height: auto;
-      border-radius: 6px;
-      margin-bottom: 20px;
-    }
-
-    .product h3 {
-      margin: 10px 0 5px;
-      font-size: 28px;
-    }
-
-    .product p {
-      margin: 0;
-      font-size: 22px;
-      color: #444;
-    }
-
-    .product a button {
-      background-color: #5865F2;
-      color: white;
-      border: none;
-      padding: 14px 24px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 18px;
-      margin-top: 20px;
-    }
-
-    .product a button:hover {
-      background-color: #4752C4;
-    }
-
-    /* Loading Screen Styles */
-    .loading-screen {
+    /* Loading Screen */
+    .loader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: rgba(0, 0, 0, 0.95); /* also pure black for loader */
       z-index: 9999;
-      backdrop-filter: blur(6px);
-      opacity: 1;
-      transition: opacity 1s ease;
-    }
-
-    .loading-screen.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loading-content {
       display: flex;
       align-items: center;
-      gap: -10px;
-      padding: 20px 40px;
-      border-radius: 12px;
-    }
-
-    .loading-content img {
-      height: 80px;
-      margin-right: -6px;
-    }
-
-    .loading-content span {
-      font-size: 28px;
+      justify-content: center;
+      gap: 20px;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      animation: fadeOut 2s 3s forwards;
       font-weight: bold;
-      color: #003087;
-      text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     }
 
-    /* Night/Day Mode Button */
-    .night-day-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #5865F2;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
-      z-index: 10000; /* Ensure it's above all other content */
+    .loader img {
+      height: 50px;
     }
 
-    .night-day-button:hover {
-      background-color: #4752C4;
-    }
-
-    /* Animation for night/day mode switch */
-    .night-mode {
-      background-color: #121212;
-      color: white;
-      transition: all 0.3s ease;
-    }
-
-    .day-mode {
-      background-color: white;
-      color: black;
-      transition: all 0.3s ease;
-    }
-
-    /* Horizontal line in the middle */
-    .line {
-      position: absolute;
-      top: 50%; /* Line in the middle of the screen */
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background-color: #5865F2;
-      z-index: 10; /* Ensure it's above other content */
-    }
-  </style>
-</head>
-
-<body class="night-mode"> <!-- Default to night mode -->
-  <!-- Night/Day Mode Button -->
-  <div class="night-day-button" onclick="toggleMode()">Switch Mode</div>
-
-  <!-- Loading Screen -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-content">
-      <img src="https://raw.githubusercontent.com/cs2boosts/cs2shop/main/images/paypal.png" alt="PayPal Logo">
-      <span>PayPal Only</span>
-      <img src="https://raw.githubusercontent.com/cs2boosts/cs2shop/main/images/paypal.png" alt="PayPal Logo">
-    </div>
-  </div>
-
-  <div class="shop-container">
-    <!-- Product 1 -->
-    <div class="product">
-      <img src="https://cs2boosts.github.io/cs2shop/images/product1.png" alt="Product 1">
-      <h3>Boosts</h3>
-      <p>€5.00</p>
-      <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
-        <button>Buy</button>
-      </a>
-    </div>
-
-    <!-- Product 2 -->
-    <div class="product">
-      <img src="https://cs2boosts.github.io/cs2shop/images/product2.png" alt="Product 2">
-      <h3>Midnight Prime Config</h3>
-      <p>€10.00</p>
-      <a href="https://discord.gg/3uXKn4y5cb" target="_blank">
-        <button>Buy</button>
-      </a>
-    </div>
-  </div>
-
-  <!-- Horizontal line in the middle -->
-  <div class="line"></div>
-
-  <script>
-    // Toggle Night/Day Mode
-    function toggleMode() {
-      const body = document.body;
-      const button = document.querySelector('.night-day-button');
-      if (body.classList.contains('night-mode')) {
-        body.classList.remove('night-mode');
-        body.classList.add('day-mode');
-        button.textContent = 'Switch to Night Mode';
-      } else {
-        body.classList.remove('day-mode');
-        body.classList.add('night-mode');
-        button.textContent = 'Switch to Day Mode';
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
       }
     }
 
-    // Hide loading screen with a fade after 2 seconds
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const loadingScreen = document.getElementById('loadingScreen');
-        if (loadingScreen) {
-          loadingScreen.classList.add('fade-out');
-          setTimeout(() => {
-            loadingScreen.remove();
-          }, 1000); // Wait for fade animation to complete before removing
-        }
-      }, 2000); // Show loading screen for 2 seconds
-    });
-  </script>
+    /* Header */
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+
+    /* Products */
+    .products {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+      padding: 2rem 1rem 5rem;
+    }
+
+    .product {
+      background: #111; /* slightly lighter than background */
+      border: 1px solid #2e2e2e;
+      border-radius: 16px;
+      overflow: hidden;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+    }
+
+    .product:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px rgba(0, 112, 255, 0.5);
+    }
+
+    .product img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .product-name {
+      padding: 1.2rem 1rem 0.5rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    /* Buy Button */
+    .buy-button {
+      margin: 1rem auto 1.5rem;
+      padding: 0.8rem 2.5rem;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+      display: inline-block;
+    }
+
+    .buy-button:hover {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loader">
+  <img src="https://raw.githubusercontent.com/cs2boosts/cs2shop/main/images/paypal.png" alt="PayPal">
+  PayPal Only
+  <img src="https://raw.githubusercontent.com/cs2boosts/cs2shop/main/images/paypal.png" alt="PayPal">
+</div>
+
+<!-- Header -->
+<header>
+  <h1>Welcome to Cs2 Shop</h1>
+</header>
+
+<!-- Products Section -->
+<section class="products">
+  <div class="product">
+    <img src="https://raw.githubusercontent.com/cs2boosts/cs2shop/main/images/product1.png" alt="CS2 Boost">
+    <div class="product-name">CS2 Boost</div>
+    <a href="https://discord.gg/3uXKn4y5cb" class="buy-button" target="_blank">Buy Now</a>
+  </div>
+
+  <div class="product">
+    <img src="https://raw.githubusercontent.com/cs2boosts/cs2shop/main/images/product2.png" alt="Midnight Premier Config">
+    <div class="product-name">Midnight Premier Config</div>
+    <a href="https://discord.gg/3uXKn4y5cb" class="buy-button" target="_blank">Buy Now</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  © 2025 Cs2 Shop | All rights reserved
+</footer>
+
 </body>
 </html>
